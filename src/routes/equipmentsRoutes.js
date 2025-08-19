@@ -1,10 +1,10 @@
 const express = require ('express');
-const { createEquipament, getAllequipaments } = require('../controllers/equipmentcontroller');
-const authMiddleware = require ('../middlewares/authMiddleware');
+const { createEquipment, getAllEquipments } = require('../controllers/equipmentcontroller.js');
+const authMiddleware = require ('../middleware/authMiddleware.js');
 const router = express.Router(); 
 
-router.post ('/', authMiddleware, createEquipament);
-router.get ('/', authMiddleware, getAllequipaments);
+router.post ('/', authMiddleware, createEquipment);
+router.get ('/', authMiddleware, getAllEquipments);
 
 module.exports = router;
 

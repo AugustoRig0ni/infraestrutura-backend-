@@ -1,7 +1,7 @@
-const express = ('express');
+const express = require ('express');
 const { getEquipmentsStatusCount } = require ('../controllers/reportController');
-const authMiddleware = require ('../middlewares/authMiddlewares');
-const router = express.router();
+const authMiddleware = require ('../middleware/authMiddleware.js');
+const router = express.Router();
 
 router.get('/', authMiddleware, getEquipmentsStatusCount);
 
