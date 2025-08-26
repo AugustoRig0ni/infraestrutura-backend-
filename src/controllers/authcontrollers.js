@@ -3,7 +3,8 @@ const bcrypt = require ('bcryptjs');
 const generateToken = require ('../utils/generateToken');
 
 const login = async (req, res) => {
-    const { emai, password } = req.body;
+    const { email, password } = req.body;
+    console.log(req.body);
     const user = await User.findOne({ where : {email} }); 
 
         if (!user) return res.status(404).json({ message: 'Usário não encontrado'});
