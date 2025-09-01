@@ -1,20 +1,29 @@
 const User = require('../models/User');
-const bcrypt = require ('bcryptjs');
-const generateToken = require ('../utils/generateToken');
+const bcrypt = require('bcryptjs');
+const generateToken = require('../utils/generateToken');
 
 const login = async (req, res) => {
     const { email, password } = req.body;
     console.log(req.body);
-    const user = await User.findOne({ where : {email} }); 
+    const user = await User.findOne({where: {nome: 'João Teste'}});
+    console.log(user);
+    
+    try {
+        if (!user) {
+            return res.status(404).json({ message: 'Usuário não encontrado' });
+        }
 
-        if (!user) return res.status(404).json({ message: 'Usário não encontrado'});
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Senha incorreta' });
+        }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: 'Senha incorreta'});
+        res.json({ token: generateToken(user.id, user.tipo) });
 
-res.json ({ token: generateToken (user.id, user.role) });
-
+    } catch (error) {
+        console.error("Erro no login:", error);
+        res.status(500).json({ message: "Erro interno no servidor" });
+    }
 };
 
 module.exports = { login };
-
